@@ -9,7 +9,10 @@ from selenium.webdriver.firefox.options import Options
 from dotenv import find_dotenv, load_dotenv
 import os
 from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
+
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -25,7 +28,7 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
 
     # driver=webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
     # driver=webdriver.Chrome(options=options)
-    driver=webdriver.Firefox(options=options, executable_path=GeckoDriverManager().install())
+    driver=webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager().install()))
     driver.get("https://twitter.com/login")
 
     time.sleep(1)
