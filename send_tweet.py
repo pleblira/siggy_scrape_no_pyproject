@@ -8,8 +8,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options
 from dotenv import find_dotenv, load_dotenv
 import os
-# from selenium.webdriver.chrome.service import Service as ChromeService
-# from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 # from selenium.webdriver.firefox.service import Service as FirefoxService
 # from webdriver_manager.firefox import GeckoDriverManager
 
@@ -28,7 +28,8 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
 
     # driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager(path = "drivers/").install()), options=options)
     # driver=webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager(path = "drivers/").install()))
-    driver = webdriver.Firefox('drivers/', options=options)
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # driver = webdriver.Firefox('drivers/', options=options)
     driver.get("https://twitter.com/login")
 
     time.sleep(1)
