@@ -5,10 +5,11 @@ from selenium.webdriver import ActionChains
 import time
 import random
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options
 from dotenv import find_dotenv, load_dotenv
 import os
 from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -22,7 +23,9 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
     options.add_argument("--headless")
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    driver=webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+    # driver=webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+    # driver=webdriver.Chrome(options=options)
+    driver=webdriver.Firefox(options=options, executable_path=GeckoDriverManager().install())
     driver.get("https://twitter.com/login")
 
     time.sleep(1)
@@ -64,17 +67,25 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
     selecting_replies.click()
     # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
 
-    time.sleep(1)
-    print("removing replies...")
-    removing_replies = driver.find_element("xpath",'/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[2]/h2/div[3]/div/label/div/div/input')
-    removing_replies.click()
-    # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
+    try:
+        time.sleep(1)
+        print("removing replies...")
+        removing_replies = driver.find_element("xpath",'/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[2]/div[2]/h2/div[3]/div/label/div/div/input')
+        removing_replies.click()
+        # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
 
-    time.sleep(1)
-    print("clicking done after removing replies...")
-    clicking_done_after_removing_replies = driver.find_element("xpath",'/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[1]/div/div/div/div/div/div[3]/div/div/span/span')
-    clicking_done_after_removing_replies.click()
-    # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
+        time.sleep(1)
+        print("clicking done after removing replies...")
+        clicking_done_after_removing_replies = driver.find_element("xpath",'/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[1]/div/div/div/div/div/div[3]/div/div/span/span')
+        clicking_done_after_removing_replies.click()
+        # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
+
+    except:
+        time.sleep(1)
+        print("clicking done after noticing it's only one person to reply to...")
+        clicking_done_after_removing_replies = driver.find_element("xpath",'/html/body/div[1]/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div/div[1]/div/div/div/div/div/div[3]/div/div/span/span')
+        clicking_done_after_removing_replies.click()
+        # print(tweet_message+" replied to https://twitter.com/"+author_handle+"/status/"+str(tweet_id_to_reply_to))
 
     time.sleep(1)
     print("sending tweet...")

@@ -1,6 +1,6 @@
 # from apscheduler.schedulers.background import BackgroundScheduler
-import os
-os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
+# import os
+# os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
 
 from apscheduler.schedulers.blocking import BlockingScheduler
 import time
@@ -72,14 +72,11 @@ def scrape_and_post():
             f.write("stackjoin")
               
 def siggy_scrape():
-
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "git+https://github.com/JustAnotherArchivist/snscrape.git"])
-
     with open('tweets.json','w') as f:
         pass
 
     with open('hashtag.txt','w') as f:
-        f.write("stackjoinadd")
+        f.write("stackjoin")
     # if NOSTR_PRIVATE_KEY == "test":
     #     NOSTR_PRIVATE_KEY = PrivateKey.from_nsec("nsec16pejvh2hdkf4rzrpejk93tmvuhaf8pv7eqenevk576492zqy6pfqguu985")
 
