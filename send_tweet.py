@@ -26,9 +26,8 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
     options.add_argument("--headless")
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    # driver=webdriver.Chrome(options=options)
-    # driver=webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager().install()))
-    driver=webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+    # driver=webdriver.Firefox(service=FirefoxService(GeckoDriverManager(path = "drivers/").install()), options=options)
+    driver=webdriver.Firefox(options=options, service=FirefoxService(GeckoDriverManager(path = "drivers/").install()))
     driver.get("https://twitter.com/login")
 
     time.sleep(1)
@@ -98,5 +97,5 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
 
     time.sleep(2)
 
-# if __name__ == "__main__":
-#     send_tweet("selenium test"+str(random.randint(1,1000)),1670571478016839681, "jusabitcoiner")
+if __name__ == "__main__":
+    send_tweet("selenium test"+str(random.randint(1,1000)),1670571478016839681, "jusabitcoiner")
