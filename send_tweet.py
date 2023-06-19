@@ -7,6 +7,8 @@ import random
 from selenium.webdriver.chrome.options import Options
 from dotenv import find_dotenv, load_dotenv
 import os
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -20,8 +22,7 @@ def send_tweet(tweet_message, tweet_id_to_reply_to, author_handle):
     options.add_argument("--headless")
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
 
-    # driver=webdriver.Chrome(options=options)
-    driver=webdriver.Firefox()
+    driver=webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
     driver.get("https://twitter.com/login")
 
     time.sleep(1)
