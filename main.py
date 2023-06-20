@@ -1,19 +1,13 @@
-# from apscheduler.schedulers.background import BackgroundScheduler
-# import os
-# os.environ["IMAGEIO_FFMPEG_EXE"] = "/usr/bin/ffmpeg"
-
 from apscheduler.schedulers.blocking import BlockingScheduler
-import time
 import subprocess
 import sys
 import json
 from upload_to_voidcat_and_return_url import *
-import requests
 from mp4_to_gif import *
 from store_stackjoin import *
 from stackjoin_add import *
-# from send_tweet import *
 from tweet_with_apiv2 import *
+import datetime
    
 def scrape_and_post():
     with open('hashtag.txt','r') as f:
@@ -59,7 +53,8 @@ def scrape_and_post():
                     if dollar_amount != 0.0 and dollar_amount != "":
                         dollar_amount_for_tweet_text = f"${dollar_amount:.2f} "
                     tweet_message = f"☑️ {dollar_amount_for_tweet_text}Stackjoin Recorded to the Mempool ☑️"
-                    tweet_message += "\n\n"+str(scraped_tweet["id"])
+                    datetime.now()
+                    tweet_message += "\n\n["+str(int(datetime.datetime.now().timestamp()))+"."+str(scraped_tweet["id"]+"]")
                     # tweepy_send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet)
                     # send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet["user"]["username"])
 
