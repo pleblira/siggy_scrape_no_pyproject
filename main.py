@@ -12,7 +12,8 @@ import requests
 from mp4_to_gif import *
 from store_stackjoin import *
 from stackjoin_add import *
-from send_tweet import *
+# from send_tweet import *
+from tweet_with_apiv2 import *
    
 def scrape_and_post():
     with open('hashtag.txt','r') as f:
@@ -58,8 +59,12 @@ def scrape_and_post():
                     if dollar_amount != 0.0 and dollar_amount != "":
                         dollar_amount_for_tweet_text = f"${dollar_amount:.2f} "
                     tweet_message = f"☑️ {dollar_amount_for_tweet_text}Stackjoin Recorded to the Mempool ☑️"
+                    tweet_message += "\n\n"+str(scraped_tweet["id"])
                     # tweepy_send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet)
                     # send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet["user"]["username"])
+
+                    tweet_with_apiv2(scraped_tweet, tweet_message)
+
 
                     new_tweet = False
                 # print('exited while loop')
@@ -76,7 +81,7 @@ def siggy_scrape():
         pass
 
     with open('hashtag.txt','w') as f:
-        f.write("stackjoin")
+        f.write("stackjoinadd")
     # if NOSTR_PRIVATE_KEY == "test":
     #     NOSTR_PRIVATE_KEY = PrivateKey.from_nsec("nsec16pejvh2hdkf4rzrpejk93tmvuhaf8pv7eqenevk576492zqy6pfqguu985")
 
@@ -93,7 +98,7 @@ def siggy_scrape():
 
     # scheduler = BackgroundScheduler()
     scheduler = BlockingScheduler()
-    scheduler.add_job(scrape_and_post, 'interval', seconds=30)
+    scheduler.add_job(scrape_and_post, 'interval', seconds=10)
     print('\nstarting scheduler')
     scheduler.start()
 
