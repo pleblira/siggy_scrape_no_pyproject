@@ -35,8 +35,14 @@ def scrape_and_post():
                         store_stackjoin(json_response_from_stackjoinadd[0],json_response_from_stackjoinadd[1],stackjoinadd_reporter=json_response_from_stackjoinadd[2], stackjoinadd_tweet_message=json_response_from_stackjoinadd[3], stackjoin_tweets_or_blocks = "stackjoin_tweets", block_height_or_tweet_id=str(json_response_from_stackjoinadd[0]["id"]), dollar_amount=json_response_from_stackjoinadd[4])
                         dollar_amount = json_response_from_stackjoinadd[4]
 
+                        tweet_id_of_stackjoined_tweet = json_response_from_stackjoinadd["id"]
+                        author_of_stackjoined_tweet = json_response_from_stackjoinadd["user"]["username"]
+
                     elif "#stackjoin" in scraped_tweet["rawContent"]:
                         store_stackjoin(scraped_tweet, scraped_tweet["date"][:-6+len(scraped_tweet["date"])])
+
+                        tweet_id_of_stackjoined_tweet = scraped_tweet["id"]
+                        author_of_stackjoined_tweet = scraped_tweet["user"]["username"]
 
 
                     stored_json.append(scraped_tweet)
@@ -53,10 +59,9 @@ def scrape_and_post():
                     if dollar_amount != 0.0 and dollar_amount != "":
                         dollar_amount_for_tweet_text = f"${dollar_amount:.2f} "
                     tweet_message = f"☑️ {dollar_amount_for_tweet_text}Stackjoin Recorded to the Mempool ☑️"
-                    tweet_message += "\n\n[at "+str(int(datetime.datetime.now().timestamp()))+" - Tweet ID "+str(scraped_tweet["id"])+" by "+scraped_tweet["user"]["username"]+"]"
+                    tweet_message += "\n\n[At timestamp "+str(int(datetime.datetime.now().timestamp()))+" - Tweet ID "+tweet_id_of_stackjoined_tweet+" by "+author_of_stackjoined_tweet+"]"
                     # tweepy_send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet)
                     # send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet["user"]["username"])
-
                     tweet_with_apiv2(scraped_tweet, tweet_message)
 
 
