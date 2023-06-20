@@ -53,7 +53,6 @@ def scrape_and_post():
                     if dollar_amount != 0.0 and dollar_amount != "":
                         dollar_amount_for_tweet_text = f"${dollar_amount:.2f} "
                     tweet_message = f"☑️ {dollar_amount_for_tweet_text}Stackjoin Recorded to the Mempool ☑️"
-                    datetime.now()
                     tweet_message += "\n\n["+str(int(datetime.datetime.now().timestamp()))+"."+str(scraped_tweet["id"]+"]")
                     # tweepy_send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet)
                     # send_tweet(tweet_message, scraped_tweet["id"], scraped_tweet["user"]["username"])

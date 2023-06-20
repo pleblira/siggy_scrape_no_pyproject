@@ -26,6 +26,7 @@ def store_stackjoin(scraped_tweet, tweet_datetimeISO, stackjoinadd_reporter = "0
     author_id = str(scraped_tweet["user"]["id"])
     # removing mentions from tweet message
     tweet_message = remove_mentions_from_tweet_message(scraped_tweet["rawContent"])
+    print(f"the tweet message, after removing mentions is {tweet_message}")
 
     if tweet_datetimeISO == None:
         tweet_datetimeISO = datetime.utcnow().isoformat()
