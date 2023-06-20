@@ -81,7 +81,7 @@ def siggy_scrape():
         pass
 
     with open('hashtag.txt','w') as f:
-        f.write("stackjoinadd")
+        f.write("stackjoin")
     # if NOSTR_PRIVATE_KEY == "test":
     #     NOSTR_PRIVATE_KEY = PrivateKey.from_nsec("nsec16pejvh2hdkf4rzrpejk93tmvuhaf8pv7eqenevk576492zqy6pfqguu985")
 
@@ -98,7 +98,7 @@ def siggy_scrape():
 
     # scheduler = BackgroundScheduler()
     scheduler = BlockingScheduler()
-    scheduler.add_job(scrape_and_post, 'interval', seconds=10)
+    scheduler.add_job(scrape_and_post, 'interval', seconds=30)
     print('\nstarting scheduler')
     scheduler.start()
 
