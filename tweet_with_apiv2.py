@@ -16,7 +16,6 @@ access_token_secret = os.environ.get("ACCESS_TOKEN_SECRET")
 def tweet_with_apiv2(scraped_tweet, tweet_message):
 
     exclude_reply_user_ids = get_exclude_reply_user_ids(scraped_tweet)
-    print(exclude_reply_user_ids)
     payload = {"text": tweet_message, "reply":{"in_reply_to_tweet_id":str(scraped_tweet['id']), "exclude_reply_user_ids": exclude_reply_user_ids}}
 
     # Make the request
