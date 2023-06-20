@@ -36,7 +36,7 @@ def scrape_and_post():
                         dollar_amount = json_response_from_stackjoinadd[4]
 
                         tweet_id_of_stackjoined_tweet = str(json_response_from_stackjoinadd["id"])
-                        author_of_stackjoined_tweet = json_response_from_stackjoinadd["user"]["username"]
+                        author_of_stackjoined_tweet = json_response_from_stackjoinadd[0]["user"]["username"]
 
                     elif "#stackjoin" in scraped_tweet["rawContent"]:
                         store_stackjoin(scraped_tweet, scraped_tweet["date"][:-6+len(scraped_tweet["date"])])
