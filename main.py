@@ -35,7 +35,7 @@ def scrape_and_post():
                         store_stackjoin(json_response_from_stackjoinadd[0],json_response_from_stackjoinadd[1],stackjoinadd_reporter=json_response_from_stackjoinadd[2], stackjoinadd_tweet_message=json_response_from_stackjoinadd[3], stackjoin_tweets_or_blocks = "stackjoin_tweets", block_height_or_tweet_id=str(json_response_from_stackjoinadd[0]["id"]), dollar_amount=json_response_from_stackjoinadd[4])
                         dollar_amount = json_response_from_stackjoinadd[4]
 
-                        tweet_id_of_stackjoined_tweet = str(json_response_from_stackjoinadd["id"])
+                        tweet_id_of_stackjoined_tweet = str(json_response_from_stackjoinadd[0]["id"])
                         author_of_stackjoined_tweet = json_response_from_stackjoinadd[0]["user"]["username"]
 
                     elif "#stackjoin" in scraped_tweet["rawContent"]:
