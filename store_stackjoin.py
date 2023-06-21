@@ -12,6 +12,8 @@ import os
 from remove_mentions_from_tweet_message import *
 from mp4_to_gif import *
 from upload_to_voidcat_and_return_url import *
+import subprocess
+import json
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
@@ -41,6 +43,25 @@ def store_stackjoin(scraped_tweet, tweet_datetimeISO, stackjoinadd_reporter = "0
     img_src_dict = []
     airtable_image_files_dict = []
     airtable_gif_files_dict = []
+
+    # checking if tweet includes quote tweet and downloading quoted tweet
+    if scraped_tweet["quotedTweet"] != None:
+        scrape_quoted_tweet = subprocess.run(['snscrape','--jsonl','twitter-tweet', str(scraped_tweet["quotedTweet"]["id"])], capture_output=True, text=True)
+        json_response_from_quoted_tweet = json.loads("["+scrape_quoted_tweet.stdout.strip().replace("\n",",")+"]")
+        quoted_tweet_id = str(json_response_from_quoted_tweet[0]["id"])
+        quoted_tweet_author_id = str(json_response_from_quoted_tweet[0]["user"]["id"])
+        quoted_tweet_author_handle = json_response_from_quoted_tweet[0]["user"]["username"]
+
+        if json_response_from_quoted_tweet[0]["media"] != None:
+            if scraped_tweet["media"] == None:
+                scraped_tweet["media"] = []
+            # print(json.dumps(json_response_from_quoted_tweet[0]["media"], indent=4))
+            print("quoted tweet has image")
+            for media in json_response_from_quoted_tweet[0]["media"]:
+                scraped_tweet["media"].append(media)
+
+        quoted_tweet_message = remove_mentions_from_tweet_message(json_response_from_quoted_tweet[0]["rawContent"])
+        tweet_message += ("\n\n[Quoted Tweet:\n@"+ quoted_tweet_author_handle + " - ID " + quoted_tweet_author_id +"\nTweet ID: "+ quoted_tweet_id + "]\n\n"+quoted_tweet_message)
 
     if scraped_tweet["media"] != None:
         print("has image")
@@ -138,6 +159,7 @@ def store_stackjoin(scraped_tweet, tweet_datetimeISO, stackjoinadd_reporter = "0
     else:
         print("no image")
     
+
     # defining airtable_API_import_notes string
     airtable_API_import_notes = ""
     # if " [*Tweet has video attached (videos are unretrievable via API). Open original tweet to access video.]" in tweet_message:

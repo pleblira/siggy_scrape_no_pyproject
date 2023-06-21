@@ -7,11 +7,10 @@ from remove_mentions_from_tweet_message import *
 import subprocess
 
 def stackjoin_add(scraped_tweet):
-    json_response_from_reply = scraped_tweet
-    stackjoinadd_reporter = " [stackjoinadd_reporter: "+json_response_from_reply["user"]["username"]+" - ID "+str(json_response_from_reply["user"]["id"])
-    cleaned_up_stackjoinadd_tweet_message = remove_mentions_from_tweet_message(json_response_from_reply["rawContent"])
+    stackjoinadd_reporter = " [stackjoinadd_reporter: "+scraped_tweet["user"]["username"]+" - ID "+str(scraped_tweet["user"]["id"])
+    cleaned_up_stackjoinadd_tweet_message = remove_mentions_from_tweet_message(scraped_tweet["rawContent"])
     stackjoinadd_tweet_message = " - message: "+cleaned_up_stackjoinadd_tweet_message + "]"
-    tweet_id_to_stackjoinadd = str(json_response_from_reply["inReplyToTweetId"])
+    tweet_id_to_stackjoinadd = str(scraped_tweet["inReplyToTweetId"])
 
     # extracting dollar_amount
     print('extracting dollar amount')
@@ -32,6 +31,7 @@ def stackjoin_add(scraped_tweet):
 
     scrape = subprocess.run(['snscrape','--jsonl','twitter-tweet', tweet_id_to_stackjoinadd], capture_output=True, text=True)
     json_response_from_tweet_to_stackjoinadd = json.loads("["+scrape.stdout.strip().replace("\n",",")+"]")
+
     # print(f"json_response_from_tweet_to_stackjoinadd is {json.dumps(json_response_from_tweet_to_stackjoinadd, indent=2)}")
     tweet_datetimeISO = json_response_from_tweet_to_stackjoinadd[0]["date"][:-6+len(scraped_tweet["date"])]
     
