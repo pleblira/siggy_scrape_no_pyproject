@@ -81,8 +81,6 @@ def siggy_scrape():
 
     with open('hashtag.txt','w') as f:
         f.write("stackjoin")
-    # if NOSTR_PRIVATE_KEY == "test":
-    #     NOSTR_PRIVATE_KEY = PrivateKey.from_nsec("nsec16pejvh2hdkf4rzrpejk93tmvuhaf8pv7eqenevk576492zqy6pfqguu985")
 
     scrape = subprocess.run(['snscrape','--jsonl','-n','5','twitter-hashtag',"stackjoin"], capture_output=True, text=True)
     json_from_scraper_output = json.loads("["+scrape.stdout.strip().replace("\n",",")+"]")
@@ -90,7 +88,6 @@ def siggy_scrape():
     json_from_stackjoinadd_scraper_output = json.loads("["+scrape.stdout.strip().replace("\n",",")+"]")
     for tweet in json_from_stackjoinadd_scraper_output:
         json_from_scraper_output.append(tweet)
-    # json_from_scraper_output = json.loads("["+scrape.stdout.strip().replace("\n",",")+"]")
     json_from_scraper_output.reverse()
     with open('tweets.json','w') as f:
         f.write(json.dumps(json_from_scraper_output, indent=2))
